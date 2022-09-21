@@ -6,6 +6,38 @@
     mode: 0755
   become: false
 
+- name: Copy unbound.conf to folder on Pi.
+  copy:
+    src: files/unbound-pihole.conf
+    dest: "/home/dietpi/pi-hole/unbound-pihole.conf"
+    owner: dietpi
+    group: dietpi
+    mode: '0644'
+
+- name: Copy 99-edns to folder on Pi.
+  copy:
+    src: files/99-edns.conf
+    dest: "/home/dietpi/pi-hole/99-edns.conf"
+    owner: dietpi
+    group: dietpi
+    mode: '0644'
+
+- name: Copy unbound-run to folder on Pi.
+  copy:
+    src: files/unbound-run
+    dest: "/home/dietpi/pi-hole/unbound-run"
+    owner: dietpi
+    group: dietpi
+    mode: '0644'
+
+- name: Copy dockerfile to folder on Pi.
+  copy:
+    src: files/Dockerfile
+    dest: "/home/dietpi/pi-hole/Dockerfile"
+    owner: dietpi
+    group: dietpi
+    mode: '0644'
+
 - name: Copy Pi-hole docker-compose template to Pi.
   ansible.builtin.template:
     src: templates/pi-hole-docker-compose.yml.j2
@@ -19,5 +51,5 @@
 - name: Ensure Pi-hole is running.
   community.docker.docker_compose:
     project_src: "{{ config_dir }}/pi-hole/"
-    build: false
+    build: true
   become: false
